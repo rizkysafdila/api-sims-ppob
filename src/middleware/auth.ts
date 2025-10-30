@@ -9,7 +9,7 @@ const authMiddleware = (req: AuthRequest, res: Response, next: NextFunction) => 
   const token = authorization && authorization.split(" ")[1]
 
   if (!token) {
-    return res.status(401).json(errorResponse(108, "Token tidak valid atau kadaluwarsa"))
+    return res.status(401).json(errorResponse(108, "Token tidak tidak valid atau kadaluwarsa"))
   }
 
   try {
@@ -18,7 +18,7 @@ const authMiddleware = (req: AuthRequest, res: Response, next: NextFunction) => 
 
     next()
   } catch (error) {
-    return res.status(401).json(errorResponse(108, "Token tidak valid atau kadaluwarsa"))
+    return res.status(401).json(errorResponse(108, "Token tidak tidak valid atau kadaluwarsa"))
   }
 }
 

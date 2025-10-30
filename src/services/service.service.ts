@@ -1,13 +1,19 @@
 import { pool } from '../config/database'
+import { Service } from '../types/service.type'
 
 export class ServiceService {
-  async getServices() {
+  async getAllServices() {
     try {
-      const result = await pool.query(
-        'SELECT id, service_code, service_name, service_icon, service_tariff FROM services ORDER BY id'
+      const result = await pool.query<Omit<Service, 'id'>>(
+        'SELECT service_code, service_name, service_icon, service_tariff FROM services ORDER BY id'
       )
 
-      return result.rows
+      const data = result.rows.map((row) => ({
+        ...row,
+        service_tariff: Math.trunc(Number(row.service_tariff)),
+      }))
+
+      return data
     } catch (error) {
       throw error
     }
@@ -15,7 +21,7 @@ export class ServiceService {
 
   async getServiceByCode(serviceCode: string) {
     try {
-      const result = await pool.query(
+      const result = await pool.query<Omit<Service, 'id'>>(
         'SELECT id, service_tariff, service_name FROM services WHERE service_code = $1',
         [serviceCode]
       )
@@ -24,7 +30,12 @@ export class ServiceService {
         throw new Error('Service not found')
       }
 
-      return result.rows[0]
+      const data = {
+        ...result.rows[0],
+        service_tariff: Math.trunc(Number(result.rows[0].service_tariff)),
+      }
+
+      return data
     } catch (error) {
       throw error
     }
