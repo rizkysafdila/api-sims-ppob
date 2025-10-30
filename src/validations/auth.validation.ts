@@ -10,6 +10,6 @@ export class AuthValidation {
 
   static readonly LOGIN = z.object({
     email: z.email('Parameter email tidak sesuai format'),
-    password: z.string().min(1, 'Password is required'),
+    password: z.string('Parameter password harus di isi'),
   });
 }

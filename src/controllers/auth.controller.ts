@@ -9,24 +9,19 @@ const authService = new AuthService()
 export class AuthController {
   async register(req: Request, res: Response, next: NextFunction) {
     try {
-      const validatedData = AuthValidation.REGISTER.parse(req.body)
-      const result = await authService.register(
-        validatedData.email,
-        validatedData.password,
-        validatedData.first_name,
-        validatedData.last_name,
-      )
+      const { email, password, first_name, last_name } = req.body
+      await authService.register(email, password, first_name, last_name)
       res.status(200).json(
         successResponse(0, 'Registrasi berhasil silahkan login', null)
       )
     } catch (error: any) {
       if (error instanceof ZodError) {
         res.status(400).json(
-          errorResponse(102, error.issues[0].message, null)
+          errorResponse(102, error.issues[0].message)
         )
       } else if (error.cause === 'email.exists') {
         res.status(400).json(
-          errorResponse(102, error.message, null)
+          errorResponse(102, error.message)
         )
       }
 
@@ -36,12 +31,22 @@ export class AuthController {
 
   async login(req: Request, res: Response, next: NextFunction) {
     try {
-      const validatedData = AuthValidation.LOGIN.parse(req.body)
-      const result = await authService.login(validatedData.email, validatedData.password)
+      const { email, password} = req.body
+      const result = await authService.login(email, password)
       res.json(
-        successResponse(0, 'Login successful', result)
+        successResponse(0, 'Login Sukses', { token: result.token })
       )
-    } catch (error) {
+    } catch (error: any) {
+      if (error instanceof ZodError) {
+        res.status(400).json(
+          errorResponse(102, error.issues[0].message)
+        )
+      } else if (error.cause === 'invalid') {
+        res.status(401).json(
+          errorResponse(103, error.message)
+        )
+      }
+
       next(error)
     }
   }
