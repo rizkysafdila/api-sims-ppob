@@ -21,13 +21,13 @@ export class ServiceService {
 
   async getServiceByCode(serviceCode: string) {
     try {
-      const result = await pool.query<Omit<Service, 'id'>>(
+      const result = await pool.query<Service>(
         'SELECT id, service_tariff, service_name FROM services WHERE service_code = $1',
         [serviceCode]
       )
 
       if (result.rows.length === 0) {
-        throw new Error('Service not found')
+        throw new Error('Service atau Layanan tidak ditemukan', { cause: 'no_service' })
       }
 
       const data = {
