@@ -1,10 +1,10 @@
 import { pool } from '../config/database'
 
 export class BannerService {
-  async getBanners() {
+  async getAllBanners() {
     try {
       const result = await pool.query(
-        'SELECT id, banner_name, banner_image, description FROM banners ORDER BY id'
+        'SELECT banner_name, banner_image, description FROM banners ORDER BY id'
       )
 
       return result.rows
