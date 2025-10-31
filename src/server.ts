@@ -18,19 +18,20 @@ app.use(express.urlencoded({ extended:true }))
 app.use('/', router)
 app.use(errorMiddleware)
 
-if (process.env.VERCEL !== "1") {
-  const start = async () => {
-    await connectDB();
-    app.listen(envConfig.APP_PORT, () => {
-      logger.info(
-        `🚀 Server running at ${envConfig.APP_URL}:${envConfig.APP_PORT}`
-      );
-    });
-  };
-  start();
-} else {
-  // Ensure DB is connected before export
-  connectDB();
-}
+// if (process.env.VERCEL !== "1") {
+//   const start = async () => {
+//     await connectDB();
+//     app.listen(envConfig.APP_PORT, () => {
+//       logger.info(
+//         `🚀 Server running at ${envConfig.APP_URL}:${envConfig.APP_PORT}`
+//       );
+//     });
+//   };
+//   start();
+// } else {
+//   // Ensure DB is connected before export
+//   connectDB();
+// }
+connectDB();
 
 export default app
