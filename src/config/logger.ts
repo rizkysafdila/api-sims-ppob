@@ -1,23 +1,43 @@
-import winston from 'winston'
+import winston from "winston";
 
-const logger: winston.Logger = winston.createLogger({
-  level: 'info',
-  format: winston.format.json(),
-  transports: [
-    new winston.transports.File({ filename: 'logs/error.log', level: 'error' }),
-    new winston.transports.File({ filename: 'logs/combined.log' }),
-  ],
-})
+const isProduction = process.env.NODE_ENV === "production";
 
-if (process.env.NODE_ENV !== 'production') {
-  logger.add(
+const transports: winston.transport[] = [];
+
+if (isProduction) {
+  transports.push(
     new winston.transports.Console({
       format: winston.format.combine(
         winston.format.colorize(),
-        winston.format.simple(),
+        winston.format.timestamp(),
+        winston.format.printf(({ level, message, timestamp }) => {
+          return `[${timestamp}] ${level}: ${message}`;
+        })
       ),
+    })
+  );
+} else {
+  transports.push(
+    new winston.transports.File({
+      filename: "logs/error.log",
+      level: "error",
     }),
-  )
+    new winston.transports.File({
+      filename: "logs/combined.log",
+    }),
+    new winston.transports.Console({
+      format: winston.format.combine(
+        winston.format.colorize(),
+        winston.format.simple()
+      ),
+    })
+  );
 }
 
-export default logger
+const logger = winston.createLogger({
+  level: "info",
+  format: winston.format.json(),
+  transports,
+});
+
+export default logger;
