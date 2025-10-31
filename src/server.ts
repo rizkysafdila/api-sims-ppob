@@ -6,6 +6,7 @@ import morganMiddleware from "./middleware/morgan"
 import errorMiddleware from "./middleware/error"
 import router from "./routes"
 import { envConfig } from "./config/env"
+import serverless from "serverless-http"
 
 dotenv.config()
 
@@ -31,4 +32,4 @@ if (process.env.NODE_ENV !== 'production') {
   connectDB()
 }
 
-export default app
+export const handler = serverless(app)

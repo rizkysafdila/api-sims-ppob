@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/server.js",
+    "start": "netlify dev",
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "test": "jest --runInBand --forceExit"
   },
@@ -26,6 +26,7 @@
     "morgan": "^1.10.1",
     "multer": "^2.0.2",
     "pg": "^8.16.3",
+    "serverless-http": "^4.0.0",
     "uuid": "^13.0.0",
     "winston": "^3.17.0",
     "zod": "^4.1.8"
