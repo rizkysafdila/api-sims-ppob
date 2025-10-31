@@ -38,7 +38,7 @@ export class ProfileController {
 
   async updateProfileImage(req: AuthRequest, res: Response, next: NextFunction) {
     try {
-      const result = await profileService.updateProfileImage(req.user_id, req.file);
+      const result = await profileService.updateProfileImage(req.user_id!, req.file!);
       res.status(200).json(
         successResponse(0, 'Update Profile Image berhasil', result)
       );
