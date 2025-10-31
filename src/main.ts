@@ -8,30 +8,25 @@ import router from "./routes"
 import { envConfig } from "./config/env"
 
 dotenv.config()
+
 const app = express()
 
 app.use(morganMiddleware)
-
 app.use(express.json())
 app.use(express.urlencoded({ extended:true }))
 
 app.use('/', router)
 app.use(errorMiddleware)
 
-// if (process.env.VERCEL !== "1") {
-//   const start = async () => {
-//     await connectDB();
-//     app.listen(envConfig.APP_PORT, () => {
-//       logger.info(
-//         `🚀 Server running at ${envConfig.APP_URL}:${envConfig.APP_PORT}`
-//       );
-//     });
-//   };
-//   start();
-// } else {
-//   // Ensure DB is connected before export
-//   connectDB();
-// }
-connectDB();
+// Only connect DB and listen in development
+if (process.env.NODE_ENV !== 'production') {
+  const start = async () => {
+    await connectDB()
+    app.listen(envConfig.APP_PORT, () => {
+      logger.info(`🚀 Server running at ${envConfig.APP_URL}:${envConfig.APP_PORT}`)
+    })
+  }
+  start()
+}
 
 export default app

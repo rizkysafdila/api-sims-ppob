@@ -5,7 +5,11 @@ import logger from './logger';
 const poolConfig = envConfig.DATABASE_URL
   ? {
       connectionString: envConfig.DATABASE_URL,
-      ssl: { rejectUnauthorized: false }
+      ssl: { rejectUnauthorized: false },
+      // Critical for serverless: limit connections
+      max: 1, // Use only 1 connection per function
+      connectionTimeoutMillis: 5000,
+      idleTimeoutMillis: 30000,
     }
   : {
       host: envConfig.DATABASE_HOST,
@@ -13,6 +17,7 @@ const poolConfig = envConfig.DATABASE_URL
       database: envConfig.DATABASE_NAME,
       user: envConfig.DATABASE_USERNAME,
       password: envConfig.DATABASE_PASSWORD,
+      max: 10, // For local development
     };
 
 export const pool = new Pool(poolConfig);
@@ -24,10 +29,18 @@ export const connectDB = async () => {
     client.release();
   } catch (error) {
     logger.error('❌ Database connection failed:', error);
-    process.exit(1);
+    // Don't exit in production (serverless)
+    if (process.env.NODE_ENV !== 'production') {
+      process.exit(1);
+    }
   }
 };
 
 pool.on('error', (err) => {
   logger.error('Unexpected database error:', err);
+});
+
+// Graceful shutdown for serverless
+process.on('SIGTERM', async () => {
+  await pool.end();
 });
