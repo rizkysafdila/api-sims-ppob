@@ -1,17 +1,16 @@
-# GreatDayHR Technical Test by Muhammad Rizky Safdila
-## API Book Manager
+# PT Nutech Integrasi Technical Test by Muhammad Rizky Safdila
+## API SIMS PPOB
 
-A simple **REST API** built with **Node.js, Typescript, Express, Sequelize, MySQL, and Simple JWT Authentication**.  
-This API provides CRUD operations for managing books with standardized responses, request validation (Zod), and modular architecture.
+A simple **REST API** built with **Node.js, Typescript, Express, PostgreSQL, and JWT Authentication**. 
 
-## 🚀 How to Run the Project
+## 🚀 How to Run the Project Locally
 
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/rizkysafdila/api-book-manager.git
+git clone https://github.com/rizkysafdila/api-sims-ppob.git
 
-cd api-book-manager
+cd api-sims-ppob
 ```
 
 ### 2. Install dependencies
@@ -20,13 +19,8 @@ cd api-book-manager
 pnpm install
 ```
 
-### 3. Run the migration and seeder
-Make sure you have MySQL running, then run:
-```bash
-npx sequelize-cli db:create
-npx sequelize-cli db:migrate
-npx sequelize-cli db:seed:all
-```
+### 3. Run the DDL file on your RDBMS
+You can check the file in root dir named **sims_ppob.sql**
 
 ### 4. Run the project
 
@@ -34,35 +28,4 @@ npx sequelize-cli db:seed:all
 pnpm dev
 ```
 
-Open [http://localhost:4000](http://localhost:4000) with your Postman to try the endpoints.
-
-## 📡 API Endpoints
-| Method | Endpoint          | Description     | Auth Required |
-| ------ | ----------------- | --------------- | ------------- |
-| POST   | `/api/auth/login` | Login (get JWT) | ❌             |
-| POST   | `/api/books`      | Create book     | ✅             |
-| GET    | `/api/books`      | Get all books   | ✅             |
-| GET    | `/api/books/:id`  | Get book by id  | ✅             |
-| PUT    | `/api/books/:id`  | Update book     | ✅             |
-| DELETE | `/api/books/:id`  | Delete book     | ✅             |
-
-## 🧪 Running Tests
-Run the test to check all api endpoints are works
-```bash
-pnpm test
-```
-
-## 🔑 Example Auth
-1. Login to get a token:
-```bash
-POST /api/auth/login
-{
-  "username": "admin",
-  "password": "password"
-}
-```
-
-2. Use the token in request header:
-```bash
-Authorization: Bearer <token>
-```
+Open [http://localhost:3000](http://localhost:3000) with your Postman to try the endpoints.
