@@ -48,8 +48,5 @@
     "supertest": "^7.1.4",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.9.2"
-  },
-  "engines": {
-    "node": ">=22.0.0"
   }
 }
