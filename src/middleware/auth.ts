@@ -3,17 +3,17 @@ import jwt from "jsonwebtoken"
 import { envConfig } from "../config/env"
 import { errorResponse } from "../utils/response"
 import { AuthRequest } from "../types/auth.type"
-// import { SessionService } from "../services/session.service"
+import { SessionService } from "../services/session.service"
 
-// const sessionService = new SessionService()
+const sessionService = new SessionService()
 
 const authMiddleware = async (req: AuthRequest, res: Response, next: NextFunction) => {
   const authorization = req.headers.authorization
   const token = authorization && authorization.split(" ")[1]
 
-  // const tokenId = await sessionService.getTokenId(token)
+  const tokenId = await sessionService.getTokenId(token)
 
-  if (!token) {
+  if (!token || !tokenId) {
     return res.status(401).json(errorResponse(108, "Token tidak tidak valid atau kadaluwarsa"))
   }
 
