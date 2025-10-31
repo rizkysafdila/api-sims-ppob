@@ -7,9 +7,9 @@ const poolConfig = process.env.NODE_ENV === 'production'
       connectionString: envConfig.DATABASE_URL,
       ssl: { rejectUnauthorized: false },
       // Critical for serverless: limit connections
-      max: 1, // Use only 1 connection per function
-      connectionTimeoutMillis: 5000,
-      idleTimeoutMillis: 30000,
+      // max: 1, // Use only 1 connection per function
+      // connectionTimeoutMillis: 5000,
+      // idleTimeoutMillis: 30000,
     }
   : {
       host: envConfig.DATABASE_HOST,
