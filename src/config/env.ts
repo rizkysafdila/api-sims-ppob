@@ -6,6 +6,7 @@ interface EnvConfig {
   APP_NAME?: string
   APP_URL?: string
   APP_PORT?: string
+  DATABASE_URL?: string
   DATABASE_HOST?: string
   DATABASE_PORT?: string
   DATABASE_USERNAME?: string
@@ -28,6 +29,7 @@ export const envConfig: EnvConfig = ({
   APP_URL: process.env.APP_URL,
   APP_NAME: process.env.APP_NAME,
   APP_PORT: process.env.APP_PORT,
+  DATABASE_URL: process.env.DATABASE_URL,
   DATABASE_HOST: process.env.DATABASE_HOST,
   DATABASE_PORT: process.env.DATABASE_PORT,
   DATABASE_USERNAME: process.env.DATABASE_USERNAME,
