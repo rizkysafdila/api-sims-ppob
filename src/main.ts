@@ -27,6 +27,8 @@ if (process.env.NODE_ENV !== 'production') {
     })
   }
   start()
+} else {
+  connectDB()
 }
 
 export default app
