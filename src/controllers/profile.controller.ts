@@ -27,7 +27,7 @@ export class ProfileController {
       )
     } catch (error) {
       if (error instanceof ZodError) {
-        res.status(200).status(400).json(
+        return res.status(400).json(
           errorResponse(102, error.issues[0].message)
         )
       }
@@ -44,7 +44,7 @@ export class ProfileController {
       );
     } catch (error: any) {
       if (error instanceof ZodError) {
-        res.status(400).json(
+        return res.status(400).json(
           errorResponse(102, error.issues[0].message)
         )
       }

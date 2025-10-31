@@ -16,11 +16,11 @@ export class AuthController {
       )
     } catch (error: any) {
       if (error instanceof ZodError) {
-        res.status(400).json(
+        return res.status(400).json(
           errorResponse(102, error.issues[0].message)
         )
       } else if (error.cause === 'email.exists') {
-        res.status(400).json(
+        return res.status(400).json(
           errorResponse(102, error.message)
         )
       }
@@ -38,11 +38,11 @@ export class AuthController {
       )
     } catch (error: any) {
       if (error instanceof ZodError) {
-        res.status(400).json(
+        return res.status(400).json(
           errorResponse(102, error.issues[0].message)
         )
       } else if (error.cause === 'invalid') {
-        res.status(401).json(
+        return res.status(401).json(
           errorResponse(103, error.message)
         )
       }
