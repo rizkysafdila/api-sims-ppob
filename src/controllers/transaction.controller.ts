@@ -23,7 +23,7 @@ export class TransactionController {
       res.status(200).json(successResponse(0, 'Top Up Balance berhasil', transaction))
     } catch (error) {
       if (error instanceof ZodError) {
-        res.status(400).json(
+        return res.status(400).json(
           errorResponse(102, error.issues[0].message)
         )
       }
@@ -39,11 +39,11 @@ export class TransactionController {
       res.status(200).json(successResponse(0, 'Transaksi Berhasil', transaction))
     } catch (error: any) {
       if (error instanceof ZodError) {
-        res.status(400).json(
+        return res.status(400).json(
           errorResponse(102, error.issues[0].message)
         )
       } else if (error.cause === 'no_service' || error.cause === 'insufficient_balance') {
-        res.status(400).json(
+        return res.status(400).json(
           errorResponse(102, error.message)
         )
       }
@@ -55,6 +55,11 @@ export class TransactionController {
   async getTransactionHistory(req: AuthRequest, res: Response, next: NextFunction) {
     try {
       const { limit = 5, offset = 0 } = req.query
+      
+      if (isNaN(parseInt(limit as string)) || isNaN(parseInt(offset as string))) {
+        return res.status(200).json(successResponse(0, 'Get History Berhasil', []))
+      }
+      
       const history = await transactionService.getTransactionHistory(
         req.user_id!,
         {
