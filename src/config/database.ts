@@ -2,7 +2,7 @@ import { Pool } from 'pg';
 import { envConfig } from './env';
 import logger from './logger';
 
-const poolConfig = envConfig.DATABASE_URL
+const poolConfig = process.env.NODE_ENV === 'production'
   ? {
       connectionString: envConfig.DATABASE_URL,
       ssl: { rejectUnauthorized: false },

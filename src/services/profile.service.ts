@@ -1,3 +1,4 @@
+import { uploadToCloudinary } from '../config/cloudinary'
 import { pool } from '../config/database'
 import { ProfileValidation } from '../validations/profile.validation'
 
@@ -45,14 +46,15 @@ export class ProfileService {
     }
   }
 
-  // TODO: profile image validation
-  async updateProfileImage(user_id: number, image_url: string) {
-    try {
-      const validatedData = ProfileValidation.UPDATE_IMAGE.parse({ image_url })
+  async updateProfileImage(user_id: number, file: Express.Multer.File) {
+    try {      
+      const validatedData = ProfileValidation.UPDATE_IMAGE.parse({ file })
+
+      const imageUrl = await uploadToCloudinary(validatedData.file.buffer, 'profile_images')
 
       await pool.query(
         'UPDATE user_profiles SET profile_image = $1, updated_at = NOW() WHERE user_id = $2',
-        [validatedData.image_url, user_id]
+        [imageUrl, user_id]
       )
 
       const result = await pool.query(
