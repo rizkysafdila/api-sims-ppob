@@ -7,6 +7,10 @@ import transactionRouter from "./transaction.routes"
 
 const router = Router()
 
+router.get('/', (req, res) => {
+  res.send('Hello World!')
+})
+
 router.use(authRoutes)
 router.use("/profile", profileRouter)
 router.use("/banner", bannerRouter)
