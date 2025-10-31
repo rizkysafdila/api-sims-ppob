@@ -10,7 +10,7 @@ import { envConfig } from "./config/env"
 dotenv.config()
 const app = express()
 
-// app.use(morganMiddleware)
+app.use(morganMiddleware)
 
 app.use(express.json())
 app.use(express.urlencoded({ extended:true }))
