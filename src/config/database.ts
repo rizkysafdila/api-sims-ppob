@@ -8,7 +8,7 @@ const poolConfig = process.env.NODE_ENV === 'production'
       ssl: { rejectUnauthorized: false },
       // Critical for serverless: limit connections
       max: 1, // Use only 1 connection per function
-      connectionTimeoutMillis: 30000,
+      connectionTimeoutMillis: 5000,
       idleTimeoutMillis: 30000,
     }
   : {
