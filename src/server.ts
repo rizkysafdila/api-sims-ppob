@@ -25,6 +25,6 @@ const start = async () => {
   })
 }
 
-start()
+// start()
 
 export default app
