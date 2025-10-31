@@ -4,11 +4,12 @@ import profileRouter from "./profile.route"
 import bannerRouter from "./banner.routes"
 import serviceRouter from "./service.routes"
 import transactionRouter from "./transaction.routes"
+import path from "path"
 
 const router = Router()
 
 router.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.sendFile(path.join(__dirname, '../../public/index.html'))
 })
 
 router.use(authRoutes)
